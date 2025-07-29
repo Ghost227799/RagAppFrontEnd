@@ -41,68 +41,103 @@ export default function AuthLanding({ onAuthSuccess }: { onAuthSuccess: (token: 
   };
 
   return (
-    <div className="auth-landing" style={{ maxWidth: 400, margin: "60px auto", padding: 24, border: "1px solid #ccc", borderRadius: 8 }}>
-      <h2>{mode === "login" ? "Login" : "Register"}</h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {mode === "register" && (
+    <div className="auth-landing">
+      <div className="auth-landing-header">
+        <h1>PDF Knowledge Assistant</h1>
+        <img
+          src="/src/assets/doc-magnifying-glass-in.svg"
+          alt="Document search"
+        />
+        <p className="tagline">
+          <strong>Upload any PDF and ask questions from it!</strong>
+        </p>
+        <p className="description">
+          Our AI-powered tool analyzes your documents instantly and provides accurate answers to your questions.
+          Simply upload your PDF, ask away, and get the information you need in seconds.
+        </p>
+      </div>
+
+      <div className="auth-form-container">
+        <h2>{mode === "login" ? "Login" : "Register"}</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="auth-form">
+            {mode === "register" && (
+              <div>
+                <label htmlFor="auth-name" className="auth-form-field">Name</label>
+                <input
+                  id="auth-name"
+                  type="text"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  required
+                  disabled={loading}
+                  className="auth-form-input"
+                />
+              </div>
+            )}
             <div>
-              <label htmlFor="auth-name" style={{ display: "block", marginBottom: 4 }}>Name</label>
+              <label htmlFor="auth-email" className="auth-form-field">Email</label>
               <input
-                id="auth-name"
-                type="text"
-                value={name}
-                onChange={e => setName(e.target.value)}
+                id="auth-email"
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
                 required
                 disabled={loading}
+                className="auth-form-input"
               />
             </div>
+            <div>
+              <label htmlFor="auth-password" className="auth-form-field">Password</label>
+              <input
+                id="auth-password"
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                required
+                disabled={loading}
+                className="auth-form-input"
+              />
+            </div>
+          </div>
+          {error && <div className="auth-error">{error}</div>}
+          <button
+            type="submit"
+            disabled={loading}
+            className="auth-submit-button"
+          >
+            {loading ? "Please wait..." : mode === "login" ? "Login" : "Register"}
+          </button>
+        </form>
+        <div className="auth-toggle-container">
+          {mode === "login" ? (
+            <span>
+              Don't have an account?{" "}
+              <button
+                type="button"
+                onClick={() => setMode("register")}
+                disabled={loading}
+                className="auth-toggle-button"
+              >
+                Register
+              </button>
+            </span>
+          ) : (
+            <span>
+              Already have an account?{" "}
+              <button
+                type="button"
+                onClick={() => setMode("login")}
+                disabled={loading}
+                className="auth-toggle-button"
+              >
+                Login
+              </button>
+            </span>
           )}
-          <div>
-            <label htmlFor="auth-email" style={{ display: "block", marginBottom: 4 }}>Email</label>
-            <input
-              id="auth-email"
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              required
-              disabled={loading}
-            />
-          </div>
-          <div>
-            <label htmlFor="auth-password" style={{ display: "block", marginBottom: 4 }}>Password</label>
-            <input
-              id="auth-password"
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              required
-              disabled={loading}
-            />
-          </div>
         </div>
-        {error && <div style={{ color: "red", margin: "8px 0" }}>{error}</div>}
-        <button type="submit" disabled={loading} style={{ width: "100%", margin: "8px 0" }}>
-          {loading ? "Please wait..." : mode === "login" ? "Login" : "Register"}
-        </button>
-      </form>
-      <div style={{ textAlign: "center" }}>
-        {mode === "login" ? (
-          <span>
-            Don't have an account?{" "}
-            <button type="button" onClick={() => setMode("register")} disabled={loading} style={{ background: "none", border: "none", color: "blue", cursor: "pointer" }}>
-              Register
-            </button>
-          </span>
-        ) : (
-          <span>
-            Already have an account?{" "}
-            <button type="button" onClick={() => setMode("login")} disabled={loading} style={{ background: "none", border: "none", color: "blue", cursor: "pointer" }}>
-              Login
-            </button>
-          </span>
-        )}
       </div>
     </div>
+
   );
 }
