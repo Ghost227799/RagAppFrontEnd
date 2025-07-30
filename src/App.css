@@ -96,6 +96,52 @@
   color: #fff;
 }
 
+/* Password input container and icon buttons */
+.password-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-icon-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) !important;
+  background: transparent !important;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1;
+  color: #aaa;
+  transition: color 0.2s;
+  width: auto !important;
+  box-shadow: none !important;
+}
+
+/* Override all button hover effects except color change */
+.password-icon-button:hover {
+  color: #baff39;
+  background: transparent !important;
+  transform: translateY(-50%) !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
+  width: auto !important;
+}
+
+.password-icon-button::after {
+  display: none !important;
+}
+
+.password-icon-right {
+  right: 10px;
+}
+
+/* Adjust padding for password input to accommodate icon */
+.password-input-container .auth-form-input {
+  padding-right: 40px;
+}
+
 .auth-error {
   color: red;
   margin: 8px 0;

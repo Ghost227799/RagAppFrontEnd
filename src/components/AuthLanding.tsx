@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { login, register } from "../api/auth";
+import { Eye, EyeOff } from "lucide-react"; // You can use any icon library
 
 type AuthMode = "login" | "register";
+
 
 export default function AuthLanding({ onAuthSuccess }: { onAuthSuccess: (token: string) => void }) {
   const [mode, setMode] = useState<AuthMode>("login");
@@ -10,6 +12,7 @@ export default function AuthLanding({ onAuthSuccess }: { onAuthSuccess: (token: 
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,15 +47,11 @@ export default function AuthLanding({ onAuthSuccess }: { onAuthSuccess: (token: 
     <div className="auth-landing">
       <div className="auth-landing-header">
         <h1>PDF Knowledge Assistant</h1>
-        <img
-          src="/src/assets/doc-magnifying-glass-in.svg"
-          alt="Document search"
-        />
         <p className="tagline">
           <strong>Upload any PDF and ask questions from it!</strong>
         </p>
         <p className="description">
-          Our AI-powered tool analyzes your documents instantly and provides accurate answers to your questions.
+          This AI-powered tool analyzes your documents instantly and provides accurate answers to your questions.
           Simply upload your PDF, ask away, and get the information you need in seconds.
         </p>
       </div>
@@ -89,15 +88,25 @@ export default function AuthLanding({ onAuthSuccess }: { onAuthSuccess: (token: 
             </div>
             <div>
               <label htmlFor="auth-password" className="auth-form-field">Password</label>
-              <input
-                id="auth-password"
-                type="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                required
-                disabled={loading}
-                className="auth-form-input"
-              />
+              <div className="password-input-container">
+                <input
+                  id="auth-password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  required
+                  disabled={loading}
+                  className="auth-form-input"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(prev => !prev)}
+                  className="password-icon-button password-icon-right"
+                  tabIndex={-1} // prevents focus on eye icon
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
             </div>
           </div>
           {error && <div className="auth-error">{error}</div>}

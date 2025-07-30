@@ -23,7 +23,14 @@ const RagSearch: React.FC = () => {
       if (response.ok) {
         try {
           const data = await response.json();
-          resultText = typeof data === "string" ? data : JSON.stringify(data?.response, null, 2);
+          // Extract the response string directly without JSON.stringify
+          if (typeof data === "string") {
+            resultText = data;
+          } else if (data && typeof data.response === "string") {
+            resultText = data.response; // Use the response string directly
+          } else {
+            resultText = JSON.stringify(data, null, 2);
+          }
         } catch (e) {
           // Not JSON or empty body
           resultText = await response.text();
